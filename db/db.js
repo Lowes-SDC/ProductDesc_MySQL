@@ -5,41 +5,17 @@ var connection = mysql.createConnection({
     user     : dbKey.USER,
     password : dbKey.PASSWORD,
     database : dbKey.DB
-  });
+});
+
+// generate 10M record CSV file
+// fakerDataGenerator.createCSV();
 
 connection.connect(()=> {console.log("connected to database");});
 
-const getAll = callback => {
-    connection.query('Select * from Item', (err,result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            callback(null, result);
-        }
-    });
+// get specific product and its descriptions
+const getOne = (productID, callback) => {
+    console.log("This is the current ID: " + productID)
+    
 };
-
-const insertItem = (item, callback) => {
-    connection.query('Insert into user (item) value (?)',[item], (err,result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            callback(null, result);
-        }
-    });
-};
-
-const deleteTask = (id, callback) => {
-    console.log(id);
-    connection.query('DELETE FROM user WHERE id=?',[id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(result);
-            callback(null, result);
-        }
-})};
-
-
-module.exports = {getAll, insertItem, deleteTask};
-
+  
+module.exports = { getOne }
