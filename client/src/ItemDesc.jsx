@@ -32,6 +32,7 @@ export default class App extends React.Component {
         iconColor: '#0471AF',
         iconHeart: mdiHeartOutline,
         iconTxt: 'SAVE',
+        productID: 9200000,
         stock: [{
             ID: '',
             Prices: '',
@@ -50,24 +51,21 @@ export default class App extends React.Component {
     }
 
     getTask() {
-        axios({
-            method: 'get',
-            url: 'http://hallowes-item-description.us-east-1.elasticbeanstalk.com/desc',
-        })
-        .then(results => {
-            this.setState({
-                stock: results.data,
-                //default: results.data[100],
-                itemDescs: results.data[this.state.pointer].Descriptions.split(', '),
-                price: results.data[this.state.pointer].Prices.toFixed(2),
-                fakePrice: results.data[this.state.pointer].Mockprice.toFixed(2),
-                discount: results.data[this.state.pointer].Discount
-            });
+      axios.get('/desc', {
+        params: {
+          id: this.state.productID
+        }
+      })
+      .then((results) => {
+        console.log("These are the results: ", results);                
+        this.setState({ 
+          itemDescs: results.data[this.state.pointer].Descriptions.split(', '),
+          price: results.data[this.state.pointer].Prices.toFixed(2),
+          fakePrice: results.data[this.state.pointer].Mockprice.toFixed(2),
+          discount: results.data[this.state.pointer].Discount
         });
-        
-    }
-
-    
+      });   
+    }   
 
     changeHeart() {
       if (this.state.iconHeart === mdiHeartOutline) {
